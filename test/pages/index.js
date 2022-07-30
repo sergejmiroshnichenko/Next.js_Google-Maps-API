@@ -1,9 +1,7 @@
-import Home from "../components/screens/Map/Home";
-
+import Home from "../components/Map/Home";
 
 
 const HomePage = () => {
-
     return <Home/>
 }
 

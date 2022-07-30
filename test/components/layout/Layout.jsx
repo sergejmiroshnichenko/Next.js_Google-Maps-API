@@ -6,17 +6,19 @@ import React from 'react';
 
 
 
-export const getStaticProps = async () => {
-    const res = await fetch('http://localhost:5000/items');
-    const data = await res.json();
+// export const getStaticProps = async () => {
+//     const res = await fetch('http://localhost:5000/items');
+//     const data = await res.json();
+//
+//     return {
+//         props: {cities: data}
+//     }
+// }
 
-    return {
-        props: {cities: data}
-    }
-}
 
-const Layout = ({children, title, cities}) => {
-    console.log(cities)
+const Layout = ({children, title}) => {
+    // console.log(cities)
+
     // const [isLoading, setIsLoading] = useState(false);
     //
     // useEffect(() => {
@@ -31,7 +33,6 @@ const Layout = ({children, title, cities}) => {
     //     }
     // }, []);
 
-
     return (
         <div>
             <Head>
@@ -42,7 +43,7 @@ const Layout = ({children, title, cities}) => {
 
             <Script
                 strategy='beforeInteractive'
-                src={`https://maps.googleapis.com/maps/api/js?key=${process.env.API_KEY}&libraries=places`}
+                src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_API_KEY}&libraries=places`}
             />
 
             <div style={{maxWidth: 480, margin: '0 auto', position: 'relative', overflow: 'hidden', display:'flex',
@@ -57,3 +58,4 @@ const Layout = ({children, title, cities}) => {
 }
 
 export default Layout
+
