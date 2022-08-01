@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "json-server": "json-server --watch db.json --port 5000",
+    "json-server": "json-server --watch pages/api/db.json --port 5000",
     "serve": "concurrently \"npm run dev\" \"npm run json-server\"",
     "build-api": "concurrently \"npm run build\" \"npm run json-server\""
   },
@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "eslint": "8.20.0",
-    "eslint-config-next": "12.2.3"
+    "eslint-config-next": "12.2.3",
+    "src": "^1.1.2"
   }
 }

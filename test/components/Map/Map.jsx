@@ -1,7 +1,7 @@
 import React, {useRef, useCallback} from "react";
 // import GoogleMapReact from 'google-map-react';
 import styles from './Map.module.css'
-import { GoogleMap } from '@react-google-maps/api';
+import { GoogleMap, Marker } from '@react-google-maps/api';
 
 const containerStyle = {
     width: '100%',
@@ -19,7 +19,7 @@ const defaultOptions = {
     keyboardShortcuts: false,
     scrollwheel: false,
     fullscreenControl: false,
-    disableDoubleClickZoom: false
+    disableDoubleClickZoom: true
 }
 
 const Map = ({center}) => {
@@ -44,7 +44,7 @@ const Map = ({center}) => {
                 onUnmount={onUnmount}
                 options={defaultOptions}
             >
-                { /* Child components, such as markers, info windows, etc. */ }
+                <Marker position={center} />
             </GoogleMap>
         </div>
         // <div style={{ height: '100vh', width: '100%' }}>
