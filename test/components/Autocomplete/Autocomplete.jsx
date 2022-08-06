@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import PlacesAutocomplete, {
     geocodeByAddress,
     getLatLng,
@@ -11,6 +11,28 @@ const Autocomplete = ({onSelect, isLoaded, organizations}) => {
     const [coordinates, setCoordinates] = useState({
         lat: null, lng: null
     });
+    const [currentOrganization, setCurrentOrganization] = useState(organizations);
+
+
+    useEffect(() => {
+        addCoordinatesPlaces()
+    }, [])
+
+
+    const addCoordinatesPlaces = () => {
+        Promise.all(
+            currentOrganization.map(async (item) => {
+                const results = await geocodeByAddress(item.location);
+                const latLng = await getLatLng(results[0]);
+                return { ...item, coordinates: latLng };
+            })
+        ).then((localArr) => {
+            setCurrentOrganization(localArr);
+        });
+    };
+    console.log('currentOrganization >>>>>>>>>>>', currentOrganization)
+
+
     const handleSelect = async (value) => {
         const results = await geocodeByAddress(value);
         const latLng = await getLatLng(results[0]);
@@ -29,13 +51,13 @@ const Autocomplete = ({onSelect, isLoaded, organizations}) => {
                     <p>Latitude:{coordinates.lat}</p>
                     <p>Longitude:{coordinates.lng}</p>
                     {/*<input {...getInputProps(*/}
-                        <ul>
-                            {isLoaded && organizations.map(({id, name, location, coordinates}) => {
-                                return (
-                                    <li key={id}><strong>{name}</strong>({coordinates}{location})</li>
-                                )
-                            })}
-                        </ul>
+                    <ul>
+                        {isLoaded && currentOrganization.map(({id, name, location, coordinates}) => {
+                            return (
+                                <li key={id}><strong>{name}{coordinates}</strong>({location})</li>
+                            )
+                        })}
+                    </ul>
 
                     {/*)}/>*/}
                     {/*<div>*/}
