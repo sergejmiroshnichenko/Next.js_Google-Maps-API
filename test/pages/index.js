@@ -1,58 +1,28 @@
-import Home from "../components/Map/Home";
-import path from 'path'
-import fs from "fs";
+import Home from "../components/Home/Home";
 
 
+const HomePage = ({ organizations }) => {
 
-const HomePage = ({data}) => {
-    console.log(data)
-    return <Home/>
+    console.log('organizations >>>>>>>>>', organizations)
+    return (
+        <Home organizations={organizations}/>
+    )
 }
 export default HomePage
 
 
+export const getStaticProps = async () => {
+    const res = await fetch(`${process.env.API_HOST}/organizations/`);
+    const organizations = await res.json();
 
-
-export const getServerSideProps = async () => {
-    const res = await fetch(`/pages/api/db.json`);
-    const data = await res.json();
-
-    return {
-        props: {
-            data
+    if(!organizations){
+        return {
+            notFound: true,
         }
     }
-};
 
+    return {
+        props: { organizations },
+    }
+}
 
-
-// export const getServerSideProps = async () => {
-//     const res = await fetch('/pages/api/db.json');
-//     const data = await res.json();
-//
-//     return { props: { data } };
-// };
-
-
-
-
-
-// export const getStaticProps = async () => {
-//     const dataFilePath = path.join(process.cwd(), '/pages/api/db.json');
-//     console.log(dataFilePath);
-//
-//     const fileContents = fs.readFileSync(dataFilePath, "utf8");
-//     const data = JSON.parse(fileContents);
-//     return { props: { data } };
-// };
-
-
-
-// export const getServerSideProps = async () => {
-//     const res = await fetch('/pages/api/db.json');
-//     const data = await res.json();
-//
-//     return {
-//         props: {cities: data}
-//     }
-// }

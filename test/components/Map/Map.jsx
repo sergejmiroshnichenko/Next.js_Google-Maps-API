@@ -1,12 +1,14 @@
-import React, {useRef, useCallback} from "react";
-// import GoogleMapReact from 'google-map-react';
+import {useRef, useCallback} from "react";
 import styles from './Map.module.css'
 import { GoogleMap, Marker } from '@react-google-maps/api';
+
 
 const containerStyle = {
     width: '100%',
     height: '100%'
 };
+
+const DEFAULT_ZOOM = 10;
 
 const defaultOptions = {
     panControls: true,
@@ -34,12 +36,13 @@ const Map = ({center}) => {
         mapRef.current = undefined
     }, [])
 
+
     return(
         <div className={styles.container}>
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 center={center}
-                zoom={10}
+                zoom={DEFAULT_ZOOM}
                 onLoad={onLoad}
                 onUnmount={onUnmount}
                 options={defaultOptions}
@@ -47,23 +50,6 @@ const Map = ({center}) => {
                 <Marker position={center} />
             </GoogleMap>
         </div>
-        // <div style={{ height: '100vh', width: '100%' }}>
-        //     <GoogleMapReact
-        //         bootstrapURLKeys={{key : String(process.env.MAP_KEY)}}
-        //         defaultCenter={{
-        //             lat:50.4536,
-        //             lng:30.5164,
-        //         }}
-        //         defaultZoom={10}
-        //         options={{
-        //             zoomControl: false,
-        //             keyboardShortcuts: false,
-        //             fullscreenControl: false,
-        //             scrollwheel: false,
-        //             clickableIcons: false,
-        //         }}
-        //     />
-        // </div>
     )
 }
 

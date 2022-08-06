@@ -1,11 +1,11 @@
-import Head from 'next/head';
 import Script from 'next/script';
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import {Bars} from 'react-loader-spinner';
+import styles from './Layout.module.css'
 
 
 
-const Layout = ({children, title}) => {
+const Layout = ({children}) => {
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -23,27 +23,19 @@ const Layout = ({children, title}) => {
 
     return (
         <div>
-            <Head>
-                <title>{title} | Google Map</title>
-                <meta name='description' content='Google Map'/>
-                <meta name='theme-color' content='#FF7BA1'/>
-            </Head>
-
             <Script
                 strategy='beforeInteractive'
-                src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_API_KEY}&libraries=places`}
+                src={`https://maps.googleapis.com/maps/api/js?key=${process.env.MAP_API_KEY}&libraries=places`}
             />
-
-            <div style={{maxWidth: 1200, margin: '0 auto', position: 'relative', overflow: 'hidden', display:'flex',
-                justifyContent: 'center', alignItems: 'center', height: '100vh'
-            }}>
-                {isLoading ? <Bars color="#00BFFF" height={100} width={100} priority={true} layout='fill'/> : children}
+            <div className={styles.wrapper}>
+                {isLoading ? <div className={styles.loader}><Bars color="#00BFFF" width={100} priority={true} layout='fill'/></div> : children}
             </div>
         </div>
     )
 }
 
 export default Layout
+
 
 
 

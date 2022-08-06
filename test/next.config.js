@@ -3,14 +3,6 @@
 module.exports = {
   reactStrictMode: true,
   env: {
-    API_KEY: "AIzaSyAsW5FrSSKKgEwnEiOGJBSHu4RlMvMD5fg"
+    MAP_API_KEY: process.env.MAP_API_KEY
   }
 }
-
-module.exports = {
-  webpack5: true,
-  webpack: (config) => {
-    config.resolve.fallback = { fs: false };
-    return config;
-  },
-};

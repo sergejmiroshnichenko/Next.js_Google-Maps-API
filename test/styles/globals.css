@@ -4,6 +4,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  overflow: hidden;
 }
 
 a {
@@ -14,5 +15,23 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.gmnoprint a,
+.gmnoprint span{
+  display: none;
+}
+
+.gmnoprint div{
+  background: none !important;
+}
+
+.hide-scroll-bar{
+  -ms-overflow-style: none;
+}
+
+.hide-scroll-bar::-webkit-scrollbar{
+  display: none;
+}
+
 
 
