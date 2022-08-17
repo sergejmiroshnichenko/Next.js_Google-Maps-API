@@ -1,8 +1,8 @@
 import Map from '../Map/Map'
 import {useJsApiLoader} from '@react-google-maps/api'
 import Autocomplete from '../../components/Autocomplete/Autocomplete'
-import {useCallback, useEffect, useState} from 'react';
-// import {geocodeByAddress, getLatLng,} from 'react-places-autocomplete';
+import {useCallback, useState} from 'react';
+
 
 
 const API_KEY = process.env.MAP_API_KEY
@@ -11,6 +11,7 @@ const defaultCenter = {
     lat: 50.4536,
     lng: 30.5164
 };
+
 const libraries = ['places']
 
 const Home = ({organizations}) => {
@@ -29,8 +30,8 @@ const Home = ({organizations}) => {
 
     return (
         <>
-            {isLoaded && <Map center={center}/>}
-            <Autocomplete isLoaded={isLoaded} organizations={organizations} onSelect={onSelectPlace}/>
+            {isLoaded && <Map center={defaultCenter}/>}
+            { <Autocomplete isLoaded={isLoaded} organizations={organizations} onSelect={onSelectPlace}/>}
         </>
     )
 }

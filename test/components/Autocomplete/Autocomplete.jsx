@@ -11,8 +11,10 @@ const Autocomplete = ({onSelect, isLoaded, organizations}) => {
     const [coordinates, setCoordinates] = useState({
         lat: null, lng: null
     });
-    const [currentOrganization, setCurrentOrganization] = useState(organizations);
 
+    const [coordinatesLoaded, setCoordinatesLoaded] = useState(false)
+
+    const [currentOrganization, setCurrentOrganization] = useState(organizations);
 
     useEffect(() => {
         addCoordinatesPlaces()
@@ -20,18 +22,36 @@ const Autocomplete = ({onSelect, isLoaded, organizations}) => {
 
 
     const addCoordinatesPlaces = () => {
-        Promise.all(
+         Promise.all(
             currentOrganization.map(async (item) => {
                 const results = await geocodeByAddress(item.location);
                 const latLng = await getLatLng(results[0]);
                 return { ...item, coordinates: latLng };
             })
         ).then((localArr) => {
+            console.log(localArr)
             setCurrentOrganization(localArr);
-        });
+        })
     };
-    console.log('currentOrganization >>>>>>>>>>>', currentOrganization)
 
+
+
+    // const addCoordinatesPlaces = async () => {
+    //     const result = [];
+    //
+    //     for (let item of currentOrganization) {
+    //         const results =  geocodeByAddress(item.location);
+    //         const latLng =  getLatLng(results[0]);
+    //
+    //         result.push({ ...item, coordinates: latLng });
+    //     }
+    //     const organizationsWithLatLng = await Promise.all(result);
+    //     setCurrentOrganization(organizationsWithLatLng);
+    // setCoordinatesLoaded(true)
+    // };
+
+
+    // console.log('currentOrganization >>>>>>>>>>>', currentOrganization)
 
     const handleSelect = async (value) => {
         const results = await geocodeByAddress(value);
@@ -48,13 +68,10 @@ const Autocomplete = ({onSelect, isLoaded, organizations}) => {
             onSelect={handleSelect}>
             {({getInputProps, suggestions, getSuggestionItemProps}) => (
                 <div>
-                    <p>Latitude:{coordinates.lat}</p>
-                    <p>Longitude:{coordinates.lng}</p>
-                    {/*<input {...getInputProps(*/}
                     <ul>
-                        {isLoaded && currentOrganization.map(({id, name, location, coordinates}) => {
+                        {isLoaded && currentOrganization.map(({id, name, location, coordinates = {}}) => {
                             return (
-                                <li key={id}><strong>{name}{coordinates}</strong>({location})</li>
+                                <li key={id}><strong>{name}</strong> {location} <i>lat:{coordinates.lat} lan:{coordinates.lng}</i></li>
                             )
                         })}
                     </ul>

@@ -3,7 +3,7 @@ import Home from "../components/Home/Home";
 
 const HomePage = ({ organizations }) => {
 
-    console.log('organizations >>>>>>>>>', organizations)
+    // console.log('organizations >>>>>>>>>', organizations)
     return (
         <Home organizations={organizations}/>
     )
