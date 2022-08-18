@@ -1,7 +1,7 @@
 export const organizations = [
     {
-        "location": "Anna Akhmatova Street, 14A, Kyiv",
-        "name": "Sinevo",
+        "location": "Borschagovskaya Street 154, Kyiv",
+        "name": "shopping mall The Marmelad",
         "id": "001"
     },
     {
@@ -10,8 +10,8 @@ export const organizations = [
         "id": "002"
     },
     {
-        "location": "Oleksandra Kosica Street, 5-А, Kyiv",
-        "name": "Darnitsky District Court of Kyiv",
+        "location": "Basseina, 4, Kyiv",
+        "name": "Mandarin Plaza",
         "id": "003"
     },
     {
@@ -20,18 +20,18 @@ export const organizations = [
         "id": "004"
     },
     {
-        "location": "Petro Grygorenko Street, Kyiv",
-        "name": "Epicenter",
+        "location": "Peremogy Street, 24, Kyiv",
+        "name": "Smart Plaza Polytech",
         "id": "005"
     },
     {
-        "location": "Mykoly Bazhana Street, 1-E, Kyiv",
-        "name": "KFC",
+        "location": "Antonovicha Street, 176, Kyiv",
+        "name": "Ocean Plaza",
         "id": "006"
     },
     {
-        "location": "Dnieper naberezhnaya, 26-L, Kyiv",
-        "name": "Sport Life",
+        "location": "Nyzhniy Val, 17, Kyiv",
+        "name": "shopping mall The Bulgakov",
         "id": "007"
     },
     {

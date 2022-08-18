@@ -1,14 +1,22 @@
-import {useRef, useCallback} from "react";
-import styles from './Map.module.css'
+import {useRef, useCallback, useEffect, useState} from "react";
+import styles from './Map.module.css';
+import {useJsApiLoader} from '@react-google-maps/api'
 import { GoogleMap, Marker } from '@react-google-maps/api';
 
+
+const defaultCenter = {
+    lat: 50.4536,
+    lng: 30.5164
+};
+
+const libraries = ['places']
 
 const containerStyle = {
     width: '100%',
     height: '100%'
 };
 
-const DEFAULT_ZOOM = 10;
+const DEFAULT_ZOOM = 13;
 
 const defaultOptions = {
     panControls: true,
@@ -24,7 +32,17 @@ const defaultOptions = {
     disableDoubleClickZoom: true
 }
 
-const Map = ({center}) => {
+const selectedIconUrl = 'https://maps.google.com/mapfiles/ms/icons/pink-dot.png'
+const normalIconUrl = 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+
+const Map = ({mapApiKey, organizations, selectedOrganization}) => {
+    const {isLoaded} = useJsApiLoader({
+        id: 'google-map-script',
+        googleMapsApiKey: mapApiKey,
+        libraries
+    });
+
+    const [center, setCenter] = useState(defaultCenter);
 
     const mapRef = useRef(undefined)
 
@@ -36,6 +54,15 @@ const Map = ({center}) => {
         mapRef.current = undefined
     }, [])
 
+    useEffect(() => {
+        if (selectedOrganization) {
+            setCenter(selectedOrganization.coordinates);
+        }
+    }, [selectedOrganization]);
+
+    if (!isLoaded) {
+        return null;
+    }
 
     return(
         <div className={styles.container}>
@@ -47,7 +74,17 @@ const Map = ({center}) => {
                 onUnmount={onUnmount}
                 options={defaultOptions}
             >
-                <Marker position={center} />
+                {organizations.map(({coordinates, id}) => (
+                    <Marker
+                        key={id}
+                        position={coordinates}
+                        icon={{
+                            url: selectedOrganization && selectedOrganization.id === id
+                                ? selectedIconUrl
+                                : normalIconUrl
+                        }}
+                    />
+                ))}
             </GoogleMap>
         </div>
     )

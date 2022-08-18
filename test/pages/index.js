@@ -1,28 +1,30 @@
 import Home from "../components/Home/Home";
 
 
-const HomePage = ({ organizations }) => {
-
-    // console.log('organizations >>>>>>>>>', organizations)
+const HomePage = ({mapApiKey}) => {
     return (
-        <Home organizations={organizations}/>
+        <Home mapApiKey={mapApiKey}/>
     )
 }
+
 export default HomePage
 
-
 export const getStaticProps = async () => {
-    const res = await fetch(`${process.env.API_HOST}/organizations/`);
-    const organizations = await res.json();
+    // const res = await fetch(`${process.env.API_HOST}/organizations/`);
+    // const organizations = await res.json();
 
-    if(!organizations){
-        return {
-            notFound: true,
-        }
-    }
+    // if(!organizations){
+    //     return {
+    //         notFound: true,
+    //     }
+    // }
+
+    const API_KEY = process.env.MAP_API_KEY
 
     return {
-        props: { organizations },
+        props: {
+            // organizations,
+            mapApiKey: API_KEY
+        },
     }
 }
-

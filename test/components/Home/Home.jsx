@@ -1,37 +1,91 @@
 import Map from '../Map/Map'
-import {useJsApiLoader} from '@react-google-maps/api'
-import Autocomplete from '../../components/Autocomplete/Autocomplete'
-import {useCallback, useState} from 'react';
+import OrganizationsList from '../OrganizationsList'
+import {useCallback, useEffect, useState} from 'react';
+import {Bars} from 'react-loader-spinner';
+import {
+    geocodeByAddress,
+    getLatLng,
+} from 'react-places-autocomplete';
 
 
+const addCoordinatesPlaces = async (organizations) => {
+    const result = [];
 
-const API_KEY = process.env.MAP_API_KEY
+    for (let item of organizations) {
+        const [address] = await geocodeByAddress(item.location);
+        const latLng = await getLatLng(address);
 
-const defaultCenter = {
-    lat: 50.4536,
-    lng: 30.5164
+        result.push({
+            ...item,
+            coordinates: latLng
+        });
+
+        await new Promise((resolve) => {
+            const timer = setTimeout(() => {
+                clearTimeout(timer);
+                resolve();
+            }, 1000);
+        });
+    }
+
+    return result;
 };
 
-const libraries = ['places']
 
-const Home = ({organizations}) => {
+const Home = ({mapApiKey}) => {
+    const [isLoad, setIsLoad] = useState(true);
+    const [organizations, setOrganizations] = useState([]);
+    const [selectedOrganization, setSelectedOrganization] = useState();
 
-    const [center, setCenter] = useState(defaultCenter);
-    const {isLoaded} = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: API_KEY,
-        libraries
-    })
+    const onSelectPlace = useCallback((id) => {
+        const org = organizations.find((item) => item.id === id);
+        if (org) {
+            setSelectedOrganization(org);
+        }
+    },[organizations])
 
-    const onSelectPlace = useCallback((coordinates) => {
-        setCenter(coordinates)
-    },[])
+    useEffect(() => {
+        fetch('/api/organizations')
+            .then((res) => res.json())
+            .then((data) => addCoordinatesPlaces(data))
+            .then((data) => {
+                setOrganizations(data);
+            })
+            .catch(console.error)
+            .finally(() => {
+                setIsLoad(false);
+            });
+    }, []);
 
+    if (isLoad) {
+        return (
+            <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh'
+            }}>
+                <Bars
+                    color="#00BFFF"
+                    width={100}
+                    priority={true}
+                    layout='fill'
+                />
+            </div>
+        );
+    }
 
     return (
         <>
-            {isLoaded && <Map center={defaultCenter}/>}
-            { <Autocomplete isLoaded={isLoaded} organizations={organizations} onSelect={onSelectPlace}/>}
+            <Map
+                mapApiKey={mapApiKey}
+                organizations={organizations}
+                selectedOrganization={selectedOrganization}
+            />
+            <OrganizationsList
+                organizations={organizations}
+                onSelect={onSelectPlace}
+            />
         </>
     )
 }
