@@ -14,7 +14,7 @@ const MyApp = ({Component, pageProps}) => {
                 <link rel="shortcut icon" href={FavIcon.src} type="image/png" />
             </Head>
             <Script
-                strategy='afterInteractive'
+                strategy='beforeInteractive'
                 src={`https://maps.googleapis.com/maps/api/js?key=${process.env.MAP_API_KEY}&libraries=places`}
             />
             <Component {...pageProps} />
