@@ -1,7 +1,7 @@
 import '../styles/globals.css';
 import Head from "next/head";
-import Script from 'next/script';
 import FavIcon from '../assets/favicon.png'
+import Script from "next/script";
 
 
 const MyApp = ({Component, pageProps}) => {
@@ -13,11 +13,11 @@ const MyApp = ({Component, pageProps}) => {
                 <meta name="description" content="Google Map"/>
                 <link rel="shortcut icon" href={FavIcon.src} type="image/png" />
             </Head>
-            <Component {...pageProps} />
             <Script
-                strategy='beforeInteractive'
+                strategy='afterInteractive'
                 src={`https://maps.googleapis.com/maps/api/js?key=${process.env.MAP_API_KEY}&libraries=places`}
             />
+            <Component {...pageProps} />
         </>
     )
 }
